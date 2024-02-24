@@ -1,0 +1,14 @@
+---
+import { turso } from '../turso'
+
+const { rows } = await turso.execute('SELECT * FROM TYPE')
+---
+
+<h1 class="text-center m-10 ">Seleccione el tipo de recetas</h1>
+<div class="grid grid-cols-4 gap-4">
+  {rows.map((post) => (
+    <div class="card p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
+      <a href={`/type/${post.name}`}> {post.name} </a>
+    </div>
+  ))}
+</div>

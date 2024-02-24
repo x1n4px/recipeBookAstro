@@ -1,0 +1,61 @@
+---
+export function getStaticPaths() {
+  return [
+    {params: {recipe: '1'}}, 
+
+  ];
+}
+
+import Navbar from '../../components/navbar.astro';
+const { recipe } = Astro.params;
+
+import { turso } from '../../turso';
+
+async function getRecipes() {
+  try {
+    const { rows: typeRows } = await turso.execute(`SELECT * FROM recipe WHERE id = '${recipe}'`);
+
+    if (typeRows.length === 0) {
+      throw new Error('Type not found');
+    }
+
+    const typeId = typeRows[0].id;
+    const { rows: recipeRows } = await turso.execute(`SELECT r.* FROM recipe r INNER JOIN recipe_type tr ON tr.recipe_id = r.id WHERE tr.type_id = ${typeId}`);
+
+    return recipeRows;
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    return []; // Handle error gracefully, e.g., return an empty array
+  }
+}
+
+const recipes = await getRecipes();
+
+---
+ <Navbar />
+
+ 
+ <section class="text-gray-600 body-font bg-lime-200 rounded-b-3xl relative">
+ <!-- Botón en la esquina superior derecha -->
+ <a href=`${recipes[0].originalHref}` target="_blank" class="absolute top-0 right-2 mt-4 mr-4 px-4 py-2 border-2 border-gray-900 rounded-lg flex items-center">
+   <span class="mr-2">{ recipes[0].name }</span>
+   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="m13 3 3.293 3.293-7 7 1.414 1.414 7-7L21 11V3z"></path><path d="M19 19H5V5h7l-2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-5l-2-2v7z"></path></svg>
+ </a>
+
+ <div class="container px-5 py-12 mx-auto flex flex-wrap flex-col items-center">
+   <img class="xl:w-2/3 lg:w-3/4 md:w-full w-full mb-10 object-cover object-center rounded-3xl" alt="hero" src=`${recipes[0].repImage}`>
+   <div class="text-center w-full">
+     <h1 class="text-4xl font-medium title-font mb-4 text-gray-900">{ recipes[0].name }</h1>
+     <hr class="mt-6 mb-4 mx-auto border-t-2 w-16 border-gray-900">
+   </div>
+ </div>
+</section>
+
+
+<div class="m-10" set:html={recipes[0].step}></div>
+
+
+
+
+
+</section>
