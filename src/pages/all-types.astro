@@ -1,6 +1,6 @@
 ---
  
-
+import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/navbar.astro';
  
 import { turso } from '../turso';
@@ -20,7 +20,7 @@ async function getRecipes() {
 const recipes = await getRecipes();
 
 ---
- <Navbar />
+<Layout title='Todos'>
 
  
 <section class="text-gray-600 body-font">
@@ -43,3 +43,4 @@ const recipes = await getRecipes();
   
   </div>
 </section>
+</Layout>

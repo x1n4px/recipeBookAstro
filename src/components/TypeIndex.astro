@@ -4,13 +4,14 @@ import { turso } from '../turso'
 const { rows } = await turso.execute('SELECT * FROM TYPE')
 ---
 
-<h1 class="text-center m-10">Seleccione el tipo de recetas</h1>
-<div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+<h1 class="text-center m-10 font-serif text-4xl text-lime-600">Seleccione el tipo de recetas</h1>
+<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
   {rows.map((post) => (
     <div class="card p-4 bg-white rounded-lg cursor-pointer hover:shadow-lg transition duration-300 text-center">
-     
-      <a href={`/type/${post.name}`}>
-        <img src=`${post.repImage}` alt=""> {post.name} </a>
+      <a href={`/type/${post.name}`} class="font-serif">
+        <img src=`${post.repImage}` alt=`${post.name}` />
+        {post.name}
+      </a>
     </div>
   ))}
 </div>

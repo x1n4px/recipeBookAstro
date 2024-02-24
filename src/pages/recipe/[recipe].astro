@@ -1,4 +1,6 @@
 ---
+import Layout from '../../layouts/Layout.astro';
+
 export function getStaticPaths() {
   return [
     {params: {recipe: '1'}}, 
@@ -47,7 +49,8 @@ const ingredient = await getIngredients();
 console.log(ingredient)
 console.log(recipes)
 ---
- <Navbar />
+
+<Layout title="Welcome to Astro.">
 
  
  <section class="text-gray-600 body-font bg-lime-200 rounded-b-3xl relative">
@@ -92,6 +95,5 @@ console.log(recipes)
 
  
 
-
-
-</section>
+</Layout>
+ 
