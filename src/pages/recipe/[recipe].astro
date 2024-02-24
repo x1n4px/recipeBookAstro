@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 
 export function getStaticPaths() {
   const pathx = [];
-  for (let i = 1; i < 3; i++) {
+  for (let i = 1; i <= 3; i++) {
     pathx.push({ params: { recipe: i } });
   }
    
